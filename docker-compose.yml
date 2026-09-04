@@ -1,0 +1,42 @@
+version: '3.7'
+
+x-snaxfi: &snaxfi
+  image: snaxfi:latest
+  env_file:
+    - .env
+  ports:
+    - ${APP_PORT}:${APP_PORT}
+  tty: true
+  restart: on-failure
+  deploy:
+    replicas: 1
+    resources:
+      limits:
+        cpus: '1'
+        memory: '2192MB'
+      reservations:
+        cpus: '1'
+        memory: '1500MB'
+  logging:
+    driver: 'json-file'
+    options:
+      max-file: '5' # number of files or file count
+      max-size: '100m' # file size
+  networks:
+    - nginx-docker_default
+
+services:    
+  snaxfi-dev:
+    image: snaxfi-dev
+    container_name: snaxfi-dev
+    command: ['sh', '-c', 'yarn migration:run && yarn start:prod-worker']
+  
+  snaxfi-prod:
+    image: snaxfi-prod
+    container_name: snaxfi-prod
+    command: ['sh', '-c', 'yarn migration:run && yarn start:prod-worker']
+
+networks:
+  default:
+    external: true
+    name: nginx-docker_default

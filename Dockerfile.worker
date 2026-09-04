@@ -1,0 +1,16 @@
+FROM node:20.19.0-alpine AS builder
+WORKDIR /app
+COPY ["package.json", "./"]
+COPY ["yarn.lock", "./"]
+RUN yarn
+COPY . .
+RUN yarn build worker
+
+FROM node:20.19.0-alpine AS runner
+RUN apk --no-cache add curl && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /app && chown -R node:node /app
+WORKDIR /app
+USER node
+COPY --from=builder /app ./
+
+CMD ["sh", "-c", "yarn migration:run && yarn start:prod-worker"]

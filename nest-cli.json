@@ -1,0 +1,75 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/api-service/src",
+  "compilerOptions": {
+    "assets": [
+      {
+        "include": "**/*.pug",
+        "watchAssets": true
+      }
+    ],
+    "plugins": [
+      "@nestjs/swagger"
+    ],
+    "webpack": true,
+    "tsConfigPath": "apps/api-service/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/api-service",
+  "projects": {
+    "api-service": {
+      "type": "application",
+      "root": "apps/api-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-service/tsconfig.app.json"
+      }
+    },
+    "worker": {
+      "type": "application",
+      "root": "apps/worker",
+      "entryFile": "main",
+      "sourceRoot": "apps/worker/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/worker/tsconfig.app.json"
+      }
+    },
+    "infra": {
+      "type": "library",
+      "root": "libs/infra",
+      "entryFile": "index",
+      "sourceRoot": "libs/infra/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/infra/tsconfig.lib.json"
+      }
+    },
+    "constants": {
+      "type": "library",
+      "root": "libs/constants",
+      "entryFile": "index",
+      "sourceRoot": "libs/constants/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/constants/tsconfig.lib.json"
+      }
+    },
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "service": {
+      "type": "library",
+      "root": "libs/service",
+      "entryFile": "index",
+      "sourceRoot": "libs/service/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/service/tsconfig.lib.json"
+      }
+    }
+  }
+}
